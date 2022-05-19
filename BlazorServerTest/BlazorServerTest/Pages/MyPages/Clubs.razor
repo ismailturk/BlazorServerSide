@@ -1,0 +1,44 @@
+﻿@page "/Data/Clubs"
+
+@using DataAccessLibrary
+@using DataAccessLibrary.Models
+
+@inject IClubsData db
+
+
+<h1>Clubs Page</h1>
+
+@if (clubs == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Club Name</th>
+                <th>Foundation Date</th>
+            </tr>
+        </thead>
+        <tbody>
+           @foreach (var clubs in clubs)
+           {
+               <tr>
+                   <td>@clubs.ClubName</td>
+                   <td>@clubs.FoundationDate</td>
+               </tr>
+           }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<ClubModel> clubs;
+
+    protected override async Task OnInitializedAsync()
+    {
+        clubs = await db.GetClub();
+    }
+
+}
